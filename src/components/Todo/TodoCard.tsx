@@ -1,16 +1,28 @@
+import { useAppDispatch } from "@/redux/hook";
 import { EditIcon } from "../icons/EditIcon";
 import { TrashBin } from "../icons/TrashBin";
 import { Button } from "../ui/button";
+import { removeTask } from "@/redux/features/TodoSlice";
 
-export const TodoCard = () => {
+type TodoCardProps = {
+  Id: string;
+  Title: string;
+  Description: string;
+};
+
+export const TodoCard = ({ Id, Title, Description }: TodoCardProps) => {
+  const dispatch = useAppDispatch();
   return (
     <div className=" bg-white flex justify-between items-center rounded-md p-2 border-2">
       <input type="checkbox" name="" id="" />
-      <p>Todo Title</p>
+      <p>{Title}</p>
       <p>Time</p>
-      <p>description</p>
+      <p>{Description}</p>
       <div className=" space-x-5">
-        <Button className="bg-red-600 space-x-1">
+        <Button
+          onClick={() => dispatch(removeTask(Id))}
+          className="bg-red-600 space-x-1"
+        >
           {" "}
           <TrashBin /> Delete
         </Button>
