@@ -26,6 +26,7 @@ export const TodoContainer = () => {
                   Id={task.ID}
                   Title={task.Title}
                   Description={task.Description}
+                  isCompleted={task.isCompleted}
                 />
               );
             })}
