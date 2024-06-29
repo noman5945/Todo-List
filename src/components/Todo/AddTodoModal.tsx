@@ -11,23 +11,38 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useAppDispatch } from "@/redux/hook";
-import { addTask } from "@/redux/features/TodoSlice";
+//import { useAppDispatch } from "@/redux/hook";
+//import { addTask } from "@/redux/features/TodoSlice";
 import { v4 as uuidv4 } from "uuid";
+import { useAddTodosMutation } from "@/redux/API/API";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export const AddTodoModal = () => {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
-  const dispatch = useAppDispatch();
+  const [priority, setPriority] = useState("");
+  //! For local data
+  //const dispatch = useAppDispatch();
+  //* For server
+  const [addTodo, { isError, isLoading, isSuccess }] = useAddTodosMutation();
   const id = uuidv4();
+  console.log({ isError, isLoading, isSuccess });
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const todo = {
       ID: id,
       Title: task,
       Description: description,
+      priority: priority,
+      isCompleted: false,
     };
-    dispatch(addTask(todo));
+    addTodo(todo);
   };
   return (
     <Dialog>
@@ -52,6 +67,21 @@ export const AddTodoModal = () => {
                 onBlur={(e) => setTask(e.target.value)}
                 className="col-span-3"
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="priority" className="text-right">
+                Priority
+              </Label>
+              <Select onValueChange={(value) => setPriority(value)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="high">high</SelectItem>
+                  <SelectItem value="medium">medium</SelectItem>
+                  <SelectItem value="low">low</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">

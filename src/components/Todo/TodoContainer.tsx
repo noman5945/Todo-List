@@ -43,6 +43,7 @@ export const TodoContainer = () => {
                   Title={task.Title}
                   Description={task.Description}
                   isCompleted={task.isCompleted}
+                  priority={task.priority}
                 />
               );
             })}

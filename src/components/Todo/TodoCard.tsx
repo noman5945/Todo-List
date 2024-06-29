@@ -9,6 +9,7 @@ type TodoCardProps = {
   Title: string;
   Description: string;
   isCompleted?: boolean;
+  priority: string;
 };
 
 export const TodoCard = ({
@@ -16,6 +17,7 @@ export const TodoCard = ({
   Title,
   Description,
   isCompleted,
+  priority,
 }: TodoCardProps) => {
   const dispatch = useAppDispatch();
   const toggleCompleteStatus = () => {
@@ -30,13 +32,28 @@ export const TodoCard = ({
         id="complete"
         checked={isCompleted}
       />
-      <p>{Title}</p>
-      {isCompleted ? (
-        <p className=" text-green-500">Complete</p>
-      ) : (
-        <p className=" text-red-500">Pending</p>
-      )}
-      <p>{Description}</p>
+      <div className=" mr-3 font-bold flex-1">
+        {" "}
+        <p>{Title}</p>
+      </div>
+      <div className="flex flex-1 items-center gap-2">
+        <div
+          className={`size-2  rounded-full ${
+            priority === "high" ? "bg-red-700" : null
+          } ${priority === "medium" ? " bg-yellow-500" : null} ${
+            priority === "low" ? "  bg-green-600" : null
+          }`}
+        ></div>
+        <p className=" font-semibold">{priority}</p>
+      </div>
+      <div className=" flex-1">
+        {isCompleted ? (
+          <p className=" text-green-500">Complete</p>
+        ) : (
+          <p className=" text-red-500">Pending</p>
+        )}
+      </div>
+      <p className=" flex-[2]">{Description}</p>
       <div className=" space-x-5">
         <Button
           onClick={() => dispatch(removeTask(Id))}
