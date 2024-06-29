@@ -10,8 +10,11 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-export const TodoDropDown = () => {
-  const [position, setPosition] = React.useState("bottom");
+type todoProps = {
+  priority: string;
+  setPriority: React.Dispatch<React.SetStateAction<string>>;
+};
+export const TodoDropDown = ({ priority, setPriority }: todoProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,10 +23,10 @@ export const TodoDropDown = () => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Filter by Priority</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        <DropdownMenuRadioGroup value={priority} onValueChange={setPriority}>
+          <DropdownMenuRadioItem value="high">high</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="medium">medium</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="low">low</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

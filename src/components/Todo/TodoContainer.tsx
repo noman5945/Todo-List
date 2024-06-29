@@ -1,16 +1,18 @@
 //import { useAppSelector } from "@/redux/hook";
+import { useState } from "react";
 import { AddTodoModal } from "./AddTodoModal";
 import { TodoCard } from "./TodoCard";
 import { TodoDropDown } from "./TodoDropDown";
 import { useGetTodosQuery } from "@/redux/API/API";
 
 export const TodoContainer = () => {
+  const [priority, setPriority] = useState("");
   //Get Data locally
   //const { todos } = useAppSelector((state) => state.todo);
   /**
    * Get data from Database
    */
-  const { data: todo, isError, isLoading } = useGetTodosQuery(undefined);
+  const { data: todo, isError, isLoading } = useGetTodosQuery(priority);
   if (isLoading) {
     return <p>Loading....</p>;
   }
@@ -26,7 +28,7 @@ export const TodoContainer = () => {
     <div>
       <div className=" flex justify-between py-2">
         <AddTodoModal />
-        <TodoDropDown />
+        <TodoDropDown priority={priority} setPriority={setPriority} />
       </div>
       <div className=" bg-primary-gradient w-full h-full rounded-xl p-[5px] ">
         {todo?.data?.length < 1 ? (

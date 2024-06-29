@@ -2,7 +2,8 @@ import { useAppDispatch } from "@/redux/hook";
 import { EditIcon } from "../icons/EditIcon";
 import { TrashBin } from "../icons/TrashBin";
 import { Button } from "../ui/button";
-import { changeTaskState, removeTask } from "@/redux/features/TodoSlice";
+import { changeTaskState } from "@/redux/features/TodoSlice";
+import { useDeleteTodoMutation } from "@/redux/API/API";
 
 type TodoCardProps = {
   Id: string;
@@ -20,9 +21,12 @@ export const TodoCard = ({
   priority,
 }: TodoCardProps) => {
   const dispatch = useAppDispatch();
+  const [deleteTodo, { isError, isSuccess, isLoading }] =
+    useDeleteTodoMutation();
   const toggleCompleteStatus = () => {
     dispatch(changeTaskState(Id));
   };
+  console.log({ isError, isLoading, isSuccess });
   return (
     <div className=" bg-white flex justify-between items-center rounded-md p-2 border-2">
       <input
@@ -55,10 +59,7 @@ export const TodoCard = ({
       </div>
       <p className=" flex-[2]">{Description}</p>
       <div className=" space-x-5">
-        <Button
-          onClick={() => dispatch(removeTask(Id))}
-          className="bg-red-600 space-x-1"
-        >
+        <Button onClick={() => deleteTodo(Id)} className="bg-red-600 space-x-1">
           {" "}
           <TrashBin /> Delete
         </Button>
